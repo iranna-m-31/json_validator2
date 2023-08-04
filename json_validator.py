@@ -12,7 +12,7 @@ _SCHEMA_TYPE_MAP: Mapping[str, type] = MappingProxyType(
           "boolean": bool,
      }
 )
-json_schema={
+json_schema:dict ={
             # write 
             #your 
             #json
@@ -32,7 +32,7 @@ json_schema={
             }
 }
 
-json_data={
+json_data:dict ={
           # write 
             #your 
             #json
