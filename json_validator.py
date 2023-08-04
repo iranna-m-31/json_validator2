@@ -1,67 +1,75 @@
-
-from typing import Union
-
-
+from types import MappingProxyType
+from typing import Mapping
+"""
+mapping types 
+of json schema to their
+actual types
+"""
+_SCHEMA_TYPE_MAP: Mapping[str, type] = MappingProxyType(
+     {
+          "string": str,
+          "integer": int,
+          "boolean": bool,
+     }
+)
 json_schema={
+            # write 
+            #your 
+            #json
+            #schema 
+            #here
             "type": "object",
             "properties": {
                 "name": {
                 "type": "string",
                 },
                 "age": {
-                "type": "integer"}
+                "type": "integer"
                 },
                 "isMarried": {
                 "type": "boolean"
                 }
             }
+}
 
 json_data={
-
-        "name":"Iranna",
-        "age":20,
-        "isMarried":False,
+          # write 
+            #your 
+            #json
+            #data
+            #here
+        "name":"imm",
+        "age":8,
+        "isMarried":True,
 
 
 }
 
 def json_schema_validator(json_schema, json_data):
     
-    #main method foe schema validator
-      print(json_schema)
+      """main method foe 
+      schema validator"""
       try:
-            if json_schema["type"]=="object":
-                     for key in json_schema["properties"]:#checking for subschemas
-                        if isinstance(json_schema["properties"][key],dict):
-                            return True
+            if json_schema["type"] == "object":
+                     for key in json_schema["properties"]:
+                        if isinstance(json_schema["properties"][key], dict):
+                                    if json_schema_validator(json_schema["properties"][key],json_data[key]):
+                                       continue
+                                    else:
+                                       return False
                         else:
-                            return False 
-            elif json_schema["type"]=="string":#if data is of string type
-               if isinstance(json_data,str):
+                           continue
                      return True
-               else:
-                  return False  
-            elif json_schema["type"]=="integer":#if data is of integer type
-               if isinstance(json_data,int):
-                     return True
-               else:
-                  return False 
-            elif json_schema["type"]=="boolean":#if data is of boolean type
-               if isinstance(json_data,bool):
-                     return True
-               else:
-                   return False
-            elif json_schema["type"]=="number":#if data is ofnumber type
-               if isinstance(json_data,int) or isinstance(json_data,float):
-                     return True
-               else:
-                   return False
+            if json_schema["type"] == "number":
+                  return isinstance(json_data,int) or isinstance(json_data,float)
+
+            return isinstance(json_data, _SCHEMA_TYPE_MAP[json_schema["type"]])
       except:
-          return True        
-
-
-
+          return True      
+      
 if json_schema_validator(json_schema,json_data):
-   print("Json json_data is valid against given JSON json_schema")
+   val="Valid"
 else:
-   print("Json json_data is not valid against given JSON json_schema")
+   val="Invalid"
+
+print("Given JSON data is "+ val)
