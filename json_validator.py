@@ -1,10 +1,12 @@
 from types import MappingProxyType
-from typing import Mapping
+from typing import Mapping, Union
 """
 mapping types 
 of json schema to their
 actual types
 """
+
+Json_Schema = dict[str,Union[str,int,bool,list,dict]]
 _SCHEMA_TYPE_MAP: Mapping[str, type] = MappingProxyType(
      {
           "string": str,
@@ -12,7 +14,8 @@ _SCHEMA_TYPE_MAP: Mapping[str, type] = MappingProxyType(
           "boolean": bool,
      }
 )
-json_schema:dict ={
+
+json_schema: Json_Schema = {
             # write 
             #your 
             #json
@@ -32,7 +35,7 @@ json_schema:dict ={
             }
 }
 
-json_data:dict ={
+json_data: Json_Schema ={
           # write 
             #your 
             #json
@@ -45,7 +48,7 @@ json_data:dict ={
 
 }
 
-def json_schema_validator(json_schema, json_data):
+def json_schema_validator(json_schema: Json_Schema, json_data: Json_Schema):
     
       """main method foe 
       schema validator"""
